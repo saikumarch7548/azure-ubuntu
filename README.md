@@ -4,28 +4,28 @@ This project can be used to spinup a single ubuntu VM with NVIDIA driver for the
 
 ## Prerequisites
 
-### Azure account[ subscription_id,tenant_id ] with app registration[ client_id, client_secret ]
+### i. Azure account[ subscription_id,tenant_id ] with app registration[ client_id, client_secret ]
 ```
 az account list --query "[].{name:name, subscriptionId:id, tenantId:tenantId}"
 export SUBSCRIPTION_ID= <query from above>
 az account set --subscription="${SUBSCRIPTION_ID}"
 az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/$SUBSCRIPTION_ID"
 ```
-### Terraform v0.12.18
-### ansible 2.9.1
+### ii. Terraform v0.12.18
+### iii. ansible 2.9.1
 
 ## Deployment
 1. Clone the Github project
 2. Navigate to the terraform folder and execute the below
 ```
-1. terraform init
-2. terraform plan \
+i. terraform init
+ii. terraform plan \
   -var "subscription_id=<enter your id>" \
   -var "client_id=<enter your id>" \
   -var "client_secret=<enter your id>" \
   -var "tenant_id=<enter your id>" --auto-aprove
 
-3. terraform apply \
+iii. terraform apply \
   -var "subscription_id=<enter your id>" \
   -var "client_id=<enter your id>" \
   -var "client_secret=<enter your id>" \
@@ -43,18 +43,15 @@ ansible-playbook -i '<public-ip,> install_softwares.yml -u <user created by terr
 docker build . -t golang
 ```
 
-6. Once the build is succeded, run the docker image, so that docker container will 
-  i.   Consider the source code from the docker volume
-  ii.  Compiles the golang application with name runme
-  iii. Executes the runme
-  
+6. Once the build is succeded, run the docker image, so that docker container will consider the source code from the docker volume, compiles the golang application with name runme and executes the runme compiled file
+ 
 ```  
 docker run -v $HOME/azure-ubuntu/docker/volumes/:/code <imageid> go
 ``` 
 
 ## Authors
 
-* **Sai Kumar Chukkapalli** - *Initial work* - [PurpleBooth](https://github.com/saikumarch7548)
+* **Sai Kumar Chukkapalli** - *Initial work* - [Sai Kumar Chukkapalli](https://github.com/saikumarch7548)
 
 ## License
 
