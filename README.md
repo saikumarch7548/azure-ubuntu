@@ -2,87 +2,61 @@
 
 This project can be used to spinup a single ubuntu VM with NVIDIA driver for the GPU in Azure Cloud and installing docker software to support containarized applications of Go Language
 
-## Getting Started
+## Prerequisites
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
-### Prerequisites
-
-What things you need to install the software and how to install them
-
+### Azure account[ subscription_id,tenant_id ] with app registration[ client_id, client_secret ]
 ```
-Give examples
+az account list --query "[].{name:name, subscriptionId:id, tenantId:tenantId}"
+export SUBSCRIPTION_ID= <query from above>
+az account set --subscription="${SUBSCRIPTION_ID}"
+az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/$SUBSCRIPTION_ID"
 ```
-
-### Installing
-
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
+### Terraform v0.12.18
+### ansible 2.9.1
 
 ## Deployment
+1. Clone the Github project
+2. Navigate to the terraform folder and execute the below
+```
+1. terraform init
+2. terraform plan \
+  -var "subscription_id=<enter your id>" \
+  -var "client_id=<enter your id>" \
+  -var "client_secret=<enter your id>" \
+  -var "tenant_id=<enter your id>" --auto-aprove
 
-Add additional notes about how to deploy this on a live system
+3. terraform apply \
+  -var "subscription_id=<enter your id>" \
+  -var "client_id=<enter your id>" \
+  -var "client_secret=<enter your id>" \
+  -var "tenant_id=<enter your id>" --auto-aprovee 
+```
+3. Retreive the public IP address created for the ubuntu machine
+4. Navigate to the ansible folder and execute the below
 
-## Built With
+```
+ansible-playbook -i '<public-ip,> install_softwares.yml -u <user created by terraform for ubuntu VM>
+```
+5. Navigate to docker folder and execute the below to create docker image
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+```
+docker build . -t golang
+```
 
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+6. Once the build is succeded, run the docker image, so that docker container will 
+  i.   Consider the source code from the docker volume
+  ii.  Compiles the golang application with name runme
+  iii. Executes the runme
+  
+```  
+docker run -v $HOME/azure-ubuntu/docker/volumes/:/code <imageid> go
+``` 
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+* **Sai Kumar Chukkapalli** - *Initial work* - [PurpleBooth](https://github.com/saikumarch7548)
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
 
