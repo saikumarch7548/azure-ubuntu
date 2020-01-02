@@ -48,7 +48,13 @@ docker build . -t golang
 ```  
 docker run -v $HOME/azure-ubuntu/docker/volumes/:/code <imageid> go
 ``` 
-
+## Next steps to improve the solution
+```  
+•	Deploy the solution from Jenkins using declarative groovy instead of running from the console
+•	Modularize the terraform code to support spinning of any number of VM's
+•	Versioning of terraform state files
+•	Coding standards on terraform, ansible and docker
+```
 ## Authors
 
 * **Sai Kumar Chukkapalli** - *Initial work* - [Sai Kumar Chukkapalli](https://github.com/saikumarch7548)
