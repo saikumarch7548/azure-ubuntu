@@ -29,7 +29,7 @@ iii. terraform apply \
   -var "subscription_id=<enter your id>" \
   -var "client_id=<enter your id>" \
   -var "client_secret=<enter your id>" \
-  -var "tenant_id=<enter your id>" --auto-aprovee 
+  -var "tenant_id=<enter your id>" --auto-aprove 
 ```
 3. Retreive the public IP address created for the ubuntu machine
 4. Navigate to the ansible folder and execute the below
